@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { OptionType } from 'src/constants/articleProps';
-import { Text } from 'components/text';
+import { OptionType } from '../../../src/constants/articleProps';
+import { Text } from '../../components/text';
 import { useEnterSubmit } from './hooks/useEnterSubmit';
 
 import styles from './RadioGroup.module.scss';
@@ -28,6 +28,8 @@ export const Option = (props: OptionProps) => {
 
 	return (
 		<div
+			role='button'
+			aria-label='я пока не понимаю что это'
 			className={styles.item}
 			key={value}
 			data-checked={isChecked}
