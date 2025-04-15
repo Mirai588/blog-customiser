@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-// import type { MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 import clsx from 'clsx';
 import { OptionType } from '../../../src/constants/articleProps';
 import { Text } from '../../components/text';
@@ -43,9 +43,17 @@ export const Select = (props: SelectProps) => {
 		setIsOpen(false);
 		onChange?.(option);
 	};
-	// const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
-	// 	setIsOpen((isOpen) => !isOpen);
-	// };
+
+	const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
+		setIsOpen((isOpen) => !isOpen);
+	};
+
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if (event.key === ' ') {
+			event.preventDefault();
+			setIsOpen((prev) => !prev);
+		}
+	};
 
 	return (
 		<div>
@@ -74,10 +82,12 @@ export const Select = (props: SelectProps) => {
 					)}
 					data-status={status}
 					data-selected={!!selected?.value}
-					// onClick={handlePlaceHolderClick}
-					// role='button'
-					// tabIndex={0}
-					ref={placeholderRef}>
+					onClick={handlePlaceHolderClick}
+					role='button'
+					aria-label='Открыть/закрыть выпадающий список'
+					tabIndex={0}
+					ref={placeholderRef}
+					onKeyDown={handleKeyDown}>
 					<Text
 						family={
 							isFontFamilyClass(selected?.className)

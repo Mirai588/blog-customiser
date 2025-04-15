@@ -13,7 +13,8 @@ export type ArrowButtonProps = {
 
 export const ArrowButton = ({ isOpen, onClick }: ArrowButtonProps) => {
 	const handleKeyDown = (event: React.KeyboardEvent) => {
-		if (event.key === 'Enter' || event.key === ' ') {
+		if (event.key === ' ') {
+			event.preventDefault();
 			onClick();
 		}
 	};
