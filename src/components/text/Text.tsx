@@ -1,6 +1,6 @@
 import { ElementType, ReactNode } from 'react';
 import clsx from 'clsx';
-import { FontFamiliesClasses } from 'src/constants/articleProps';
+import { FontFamiliesClasses } from '../../../src/constants/articleProps';
 
 import styles from './index.module.scss';
 
@@ -52,3 +52,5 @@ export const Text = ({
 	);
 	return <Tag className={className}>{children}</Tag>;
 };
+
+console.log(Text);

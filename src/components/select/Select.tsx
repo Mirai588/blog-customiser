@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
 import type { MouseEventHandler } from 'react';
 import clsx from 'clsx';
-import { OptionType } from 'src/constants/articleProps';
-import { Text } from 'components/text';
-import { Spacing } from 'components/spacing';
-import arrowDown from 'src/images/arrow-down.svg';
+import { OptionType } from '../../../src/constants/articleProps';
+import { Text } from '../../components/text';
+import { Spacing } from '../../components/spacing';
+import arrowDown from '../../../src/images/arrow-down.svg';
 import { Option } from './Option';
 import { isFontFamilyClass } from './helpers/isFontFamilyClass';
 import { useEnterSubmit } from './hooks/useEnterSubmit';
@@ -43,8 +43,16 @@ export const Select = (props: SelectProps) => {
 		setIsOpen(false);
 		onChange?.(option);
 	};
+
 	const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
 		setIsOpen((isOpen) => !isOpen);
+	};
+
+	const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if (event.key === ' ') {
+			event.preventDefault();
+			setIsOpen((prev) => !prev);
+		}
 	};
 
 	return (
@@ -76,8 +84,10 @@ export const Select = (props: SelectProps) => {
 					data-selected={!!selected?.value}
 					onClick={handlePlaceHolderClick}
 					role='button'
+					aria-label='Открыть/закрыть выпадающий список'
 					tabIndex={0}
-					ref={placeholderRef}>
+					ref={placeholderRef}
+					onKeyDown={handleKeyDown}>
 					<Text
 						family={
 							isFontFamilyClass(selected?.className)
@@ -93,6 +103,7 @@ export const Select = (props: SelectProps) => {
 							.filter((option) => selected?.value !== option.value)
 							.map((option) => (
 								<Option
+									selectedValue={selected?.value || ''}
 									key={option.value}
 									option={option}
 									onClick={() => handleOptionClick(option)}

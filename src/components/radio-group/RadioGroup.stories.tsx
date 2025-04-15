@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { RadioGroup } from './RadioGroup';
@@ -33,3 +34,5 @@ export const RadioGroupStory: Story = {
 		);
 	},
 };
+
+/* eslint-enable react-hooks/rules-of-hooks */
