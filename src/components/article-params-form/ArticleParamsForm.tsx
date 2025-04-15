@@ -13,12 +13,22 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
+	ArticleStateType,
+	defaultArticleState,
 } from '../../../src/constants/articleProps';
 import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
 import { Spacing } from '../spacing';
 
-export const ArticleParamsForm = () => {
+interface ArticleParamsFormProps {
+	setArticleState: (
+		value: ArticleStateType | ((prev: ArticleStateType) => ArticleStateType)
+	) => void;
+}
+
+export const ArticleParamsForm = ({
+	setArticleState,
+}: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const formRef = useRef<HTMLElement>(null);
 
@@ -53,44 +63,88 @@ export const ArticleParamsForm = () => {
 		};
 	}, [isOpen]);
 
+	const [fontFamily, setFontFamily] = useState(
+		defaultArticleState.fontFamilyOption
+	);
+	const [fontSize, setFontSize] = useState(defaultArticleState.fontSizeOption);
+	const [fontColor, setFontColor] = useState(defaultArticleState.fontColor);
+	const [backgroundColor, setBackgroundColor] = useState(
+		defaultArticleState.backgroundColor
+	);
+	const [contentWidth, setContentWidth] = useState(
+		defaultArticleState.contentWidth
+	);
+
+	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setArticleState({
+			fontFamilyOption: fontFamily,
+			fontColor: fontColor,
+			backgroundColor: backgroundColor,
+			contentWidth: contentWidth,
+			fontSizeOption: fontSize,
+		});
+		setIsOpen(false);
+	};
+
+	const onReset = () => {
+		setFontFamily(defaultArticleState.fontFamilyOption);
+		setFontSize(defaultArticleState.fontSizeOption);
+		setFontColor(defaultArticleState.fontColor);
+		setBackgroundColor(defaultArticleState.backgroundColor);
+		setContentWidth(defaultArticleState.contentWidth);
+		setArticleState({
+			fontFamilyOption: defaultArticleState.fontFamilyOption,
+			fontColor: defaultArticleState.fontColor,
+			backgroundColor: defaultArticleState.backgroundColor,
+			contentWidth: defaultArticleState.contentWidth,
+			fontSizeOption: defaultArticleState.fontSizeOption,
+		});
+	};
+
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={toggle} />
 			<aside
 				ref={formRef}
 				className={clsx(styles.container, isOpen && styles.container_open)}>
-				<form className={styles.form}>
+				<form className={styles.form} onSubmit={onSubmit} onReset={onReset}>
 					<Select
 						title='Шрифт'
-						selected={fontFamilyOptions[0]}
+						selected={fontFamily}
 						options={fontFamilyOptions}
+						onChange={setFontFamily}
 					/>
 					<Spacing size={50} />
 					<RadioGroup
 						name='fontSize'
 						options={fontSizeOptions}
-						selected={fontSizeOptions[0]}
+						selected={fontSize}
+						onChange={setFontSize}
 						title='Размер шрифта'
 					/>
 					<Spacing size={50} />
 					<Select
 						title='Цвет шрифта'
-						selected={fontColors[0]}
+						selected={fontColor}
 						options={fontColors}
+						onChange={setFontColor}
 					/>
 					<Spacing size={50} />
 					<Separator />
 					<Spacing size={50} />
 					<Select
 						title='Цвет фона'
-						selected={backgroundColors[0]}
+						selected={backgroundColor}
 						options={backgroundColors}
+						onChange={setBackgroundColor}
 					/>
 					<Spacing size={50} />
 					<Select
 						title='Ширина контента'
-						selected={contentWidthArr[0]}
+						selected={contentWidth}
 						options={contentWidthArr}
+						onChange={setContentWidth}
 					/>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='reset' />

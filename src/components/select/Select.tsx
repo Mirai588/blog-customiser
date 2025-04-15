@@ -103,6 +103,7 @@ export const Select = (props: SelectProps) => {
 							.filter((option) => selected?.value !== option.value)
 							.map((option) => (
 								<Option
+									selectedValue={selected?.value || ''}
 									key={option.value}
 									option={option}
 									onClick={() => handleOptionClick(option)}

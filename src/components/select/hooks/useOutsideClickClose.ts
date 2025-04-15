@@ -13,8 +13,6 @@ export const useOutsideClickClose = ({
 	onClose,
 	onChange,
 }: UseOutsideClickClose) => {
-	// const optionRef = useRef<HTMLDivElement>(null);
-
 	useEffect(() => {
 		const handleClick = (event: MouseEvent) => {
 			const { target } = event;
@@ -24,10 +22,10 @@ export const useOutsideClickClose = ({
 			}
 		};
 
-		window.addEventListener('click', handleClick);
+		document.addEventListener('click', handleClick);
 
 		return () => {
-			window.removeEventListener('click', handleClick);
+			document.removeEventListener('click', handleClick);
 		};
 	}, [onClose, onChange, isOpen]);
 };

@@ -1,14 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { OptionType } from '../../../../src/constants/articleProps';
 
 type UseEnterSubmit = {
+	optionRef: React.RefObject<HTMLElement>;
 	onChange?: (option: OptionType) => void;
 	option: OptionType;
 };
 
-export const useEnterSubmit = ({ onChange, option }: UseEnterSubmit) => {
-	const optionRef = useRef<HTMLDivElement>(null);
-
+export const useEnterSubmit = ({
+	optionRef,
+	onChange,
+	option,
+}: UseEnterSubmit) => {
 	useEffect(() => {
 		const optionHtml = optionRef.current;
 
@@ -26,5 +29,5 @@ export const useEnterSubmit = ({ onChange, option }: UseEnterSubmit) => {
 		return () => {
 			optionHtml.removeEventListener('keydown', handleEnterKeyDown);
 		};
-	}, [onChange]);
+	}, [optionRef, onChange, option]);
 };

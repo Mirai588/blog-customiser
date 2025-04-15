@@ -3,7 +3,8 @@
 	left: 0;
 	width: 616px;
 	height: 100%;
-	overflow: hidden;
+	overflow: hidden scroll;
+	background-color: #ffffff;
 	transform: translate(-616px);
 	transition: transform 0.5s ease;
 }
